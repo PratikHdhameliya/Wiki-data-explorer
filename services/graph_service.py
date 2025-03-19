@@ -2,12 +2,11 @@ import networkx as nx
 from services.sparql_service import get_entity_details
 import plotly.graph_objects as go
 import json
-import numpy as np
-import re
 
 
 
-def generate_knowledge_graph(entity_id, depth=1, max_relations=15):
+
+def generate_knowledge_graph(entity_id, max_relations=15):
     """
     Generate a knowledge graph for visualization starting from the given entity
     Returns data structure suitable for visualization
