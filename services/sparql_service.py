@@ -43,7 +43,7 @@ def search_wikidata(query, limit=10):
     """
     sparql = SPARQLWrapper(WIKIDATA_ENDPOINT)
     sparql.setMethod('GET')
-    sparql.setTimeout(30)  # Set a longer timeout
+    sparql.setTimeout(30)  
     
     # SPARQL query to find entities by label - simplified for reliability
     query_text = f"""
@@ -86,7 +86,7 @@ def get_basic_entity_info(entity_id):
     """Fallback method to get basic entity information"""
     sparql = SPARQLWrapper(WIKIDATA_ENDPOINT)
     
-    # Very simple query just to get label and description
+    # simple query  to get label and description
     query_text = f"""
     SELECT ?entityLabel ?entityDescription
     WHERE {{

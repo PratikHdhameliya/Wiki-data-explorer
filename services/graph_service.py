@@ -5,14 +5,7 @@ import json
 import numpy as np
 import re
 
-def md5_prefix_for_commons(filename):
-    """
-    Calculate MD5 prefix for Wikimedia Commons URL (simplified)
-    This is not a full MD5 implementation but will return a placeholder
-    """
-    # In real implementation, would calculate MD5 hash
-    # For now, return a placeholder
-    return "a/ab"
+
 
 def generate_knowledge_graph(entity_id, depth=1, max_relations=15):
     """
