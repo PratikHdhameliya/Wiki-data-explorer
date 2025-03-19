@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikidata Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Wikidata Explorer</h1>
+        <p>Search for entities in Wikidata knowledge graph</p>
+        
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search Wikidata (e.g., Chemnitz, Berlin, Albert Einstein...)" required>
+            <button type="submit">Search</button>
+        </form>
+        
+        <div class="about">
+            <h2>About this app</h2>
+            <p>This application allows you to search and visualize Wikidata entities with their relationships in a knowledge graph.</p>
+            <p>To use this app:</p>
+            <ol>
+                <li>Enter a search term in the search box</li>
+                <li>Select one of the search results</li>
+                <li>Explore the entity details and 3D knowledge graph visualization</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

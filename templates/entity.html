@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if entity %}{{ entity.label }}{% else %}Entity Not Found{% endif %} - Wikidata Explorer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Wikidata Explorer</h1>
+        
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search Wikidata" required>
+            <button type="submit">Search</button>
+        </form>
+        
+        {% if error %}
+            <div class="error">
+                <p>{{ error }}</p>
+                <a href="{{ url_for('index') }}" class="back-link">Back to Search</a>
+            </div>
+        {% elif entity %}
+            <div class="entity-details">
+                <h2>{{ entity.label }} <span class="entity-id">({{ entity.id }})</span></h2>
+                
+                {% if entity.description %}
+                    <p class="entity-description">{{ entity.description }}</p>
+                {% endif %}
+                
+                <div class="property-list">
+                    <h3>Properties</h3>
+                    
+                    {% if entity.properties %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for prop in entity.properties %}
+                                    <tr>
+                                        <td>{{ prop.label }}</td>
+                                        <td>
+                                            {% if "wikidata.org/entity/" in prop.raw_value %}
+                                                {% set object_id = prop.raw_value.split('/')[-1] %}
+                                                <a href="{{ url_for('entity', entity_id=object_id) }}">{{ prop.value }}</a>
+                                            {% else %}
+                                                {{ prop.value }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No properties found for this entity.</p>
+                    {% endif %}
+                </div>
+                
+                <div class="knowledge-graph">
+                    <h3>Knowledge Graph Visualization</h3>
+                    
+                    <!-- 3D Graph visualization will be placed here -->
+                    <div id="graph-container" class="graph-container">
+                        {% if graph_html %}
+                            {{ graph_html|safe }}
+                        {% else %}
+                            <div class="error">No graph data available</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="graph-info">
+                        <p>The graph shows relationships between <strong>{{ entity.label }}</strong> and other entities in Wikidata.</p>
+                        <p><strong>Mouse controls:</strong> rotate (drag), zoom (scroll), pan (right-click drag)</p>
+                        <p><strong>Node colors:</strong></p>
+                        <ul class="legend">
+                            <li><span class="color-box main"></span> Main entity ({{ entity.label }})</li>
+                            <li><span class="color-box person"></span> People</li>
+                            <li><span class="color-box location"></span> Locations</li>
+                            <li><span class="color-box image"></span> Images</li>
+                            <li><span class="color-box other"></span> Other entities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="error">
+                <p>Something went wrong. No entity data available.</p>
+                <a href="{{ url_for('index') }}" class="back-link">Back to Search</a>
+            </div>
+        {% endif %}
+            
+        <div class="navigation">
+            <a href="{{ url_for('index') }}" class="back-link">Back to Search</a>
+        </div>
+    </div>
+    
+    <script>
+        // Python-generated 3D graph is already embedded in the page
+        // This script section can be used for extra interactivity if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            // Any additional initialization code can go here
+            console.log('Knowledge graph loaded');
+        });
+    </script>
+</body>
+</html>
